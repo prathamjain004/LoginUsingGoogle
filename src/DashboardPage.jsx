@@ -11,6 +11,7 @@ function DashboardPage() {
 
   useEffect(() => {
     const successMessage = location.state?.successMessage;
+    localStorage.removeItem('isLoggedIn');
     if (successMessage) {
       setShowSuccessMessage(true);
       const timer = setTimeout(() => {
@@ -30,39 +31,30 @@ function DashboardPage() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('isLoggedIn');
     navigate('/', { state: { successMessage: 'Logout successful' } });
   };
 
-  useEffect(() => {
-    const isLoggedIn = localStorage.getItem('isLoggedIn');
-
-    if (!isLoggedIn) {
-      navigate('/');
-    }
-  }, [navigate]);
-
-  return ( 
-  <div style={{background: 'yellow', color: 'black', height: '40px'}}>
-    {showSuccessMessage && <div style={{ position: 'absolute', top: 10, right: 10, color: 'black' }}>{location.state.successMessage}</div>}
-    <Button id="basic-button"
-      aria-controls={open ? 'basic-menu' : undefined}
-      aria-haspopup="true"
-      aria-expanded={open ? 'true' : undefined}
-      onClick={handleClick}>Dashboard</Button>
-    <Menu
-      id="basic-menu"
-      anchorEl={anchorEl}
-      open={open}
-      onClose={handleClose}
-      MenuListProps={{
-        'aria-labelledby': 'basic-button',
-      }}>
-      <MenuItem onClick={handleClose}>Profile</MenuItem>
-      <MenuItem onClick={handleClose}>My account</MenuItem>
-      <MenuItem onClick={handleLogout}>Logout</MenuItem>
-    </Menu>
-  </div>
+  return (
+    <div style={{ background: 'yellow', color: 'black', height: '40px' }}>
+      {showSuccessMessage && <div style={{ position: 'absolute', top: 10, right: 10, color: 'black' }}>{location.state.successMessage}</div>}
+      <Button id="basic-button"
+        aria-controls={open ? 'basic-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={handleClick}>Dashboard</Button>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}>
+        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem onClick={handleClose}>My account</MenuItem>
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+      </Menu>
+    </div>
   );
 }
 
